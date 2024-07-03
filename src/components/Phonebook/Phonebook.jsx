@@ -1,43 +1,55 @@
 import React, { useEffect } from 'react';
-import styles from './Phonebook.module.css';
-import ContactsForm from '../ContactsForm/Contactform';
-import ContactFilter from '../Filtering/Filter';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts, deleteContact } from '../redux/contactsSlice';
-import { selectFilteredContacts } from '../redux/selectors';
+import { fetchContacts, deleteContact } from '../redux/operations';
+import ContactsForm from '../ContactsForm/Contactform'; 
+import ContactFilter from '../Filtering/Filter'; 
+import { getContacts, getIsLoading, getError, getFilter  } from '../redux/selectors'; 
+import styles from "./Phonebook.module.css"
 
 function Phonebook() {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector(state => state.contacts);
-  const filteredContacts = useSelector(selectFilteredContacts);
+  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+  const filter = useSelector(getFilter);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchContacts()); 
   }, [dispatch]);
 
-  const handleRemoveContact = (id) => {
-    dispatch(deleteContact(id));
+  const handleRemoveContact = async (contactId) => {
+    try {
+      await dispatch(deleteContact(contactId)); 
+      dispatch(fetchContacts()); 
+    } catch (error) {
+      console.error('Error deleting contact:', error);
+    }
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p>Loading...</p>; 
   }
 
   if (error) {
     return <p>Error: {error}</p>;
   }
 
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <>
-      <ContactsForm />
+      <ContactsForm /> 
 
       <div className={styles.phonebookContainer}>
         <div className={styles.title}>
           <h2>Contacts List</h2>
-          <ContactFilter />
+          <ContactFilter /> 
         </div>
 
         <ul className={styles.phonebookList}>
+      
           {filteredContacts.map((contact, index) => (
             <li key={contact.id}>
               <div className={styles.ContactContainer}>
@@ -45,10 +57,12 @@ function Phonebook() {
                   <div className={styles.CheckBox}>
                     <input type="checkbox" />
                   </div>
+
                   <div className={styles.ContactList}>
-                    {index + 1}. {contact.name}: {contact.number}
+                    {index + 1}. {contact.name} : {contact.phone} 
                   </div>
                 </div>
+
                 <button
                   onClick={() => handleRemoveContact(contact.id)}
                   type="button"

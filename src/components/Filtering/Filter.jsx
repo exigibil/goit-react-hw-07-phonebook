@@ -1,27 +1,28 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../Phonebook/Phonebook.module.css';
 import { setFilter } from "../redux/filterSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getFilter } from '../redux/selectors';
 
 function ContactFilter() {
-  const [search, setSearch] = useState('');
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
-    setSearch(value);
     dispatch(setFilter(value.toLowerCase()));
   };
 
   return (
     <div>
+      <label htmlFor="filterInput" className={styles.label}>Search by name:</label>
       <input
+        id="filterInput"
         className={styles.inputText}
         type="text"
-        value={search}
+        value={filter}
         onChange={handleSearchChange}
-        placeholder="Search by name"
+        placeholder="Enter name to filter"
       />
     </div>
   );
