@@ -16,14 +16,15 @@ function ContactsForm() {
       return;
     }
 
-    const existingContact = contacts.find(contact => contact.name === name && contact.phone === phone);
+    const existingContact = contacts.find(
+      contact => contact.name === name && contact.phone === phone
+    );
     if (existingContact) {
       alert('Contact already exists!');
       return;
     }
 
     dispatch(addContact({ name, phone }));
-
 
     setName('');
     setPhone('');
@@ -37,28 +38,32 @@ function ContactsForm() {
       </div>
       <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.label}>Name</label>
+          <label htmlFor="name" className={styles.label}>
+            Name
+          </label>
           <input
             id="name"
             className={styles.inputText}
             type="text"
             name="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
             placeholder="Enter your name"
             required
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="number" className={styles.label}>Phone Number</label>
+          <label htmlFor="number" className={styles.label}>
+            Phone Number
+          </label>
           <input
             id="number"
             className={styles.inputText}
             type="tel"
             name="phone number"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={e => setPhone(e.target.value)}
             placeholder="Enter your phone number"
             required
           />
