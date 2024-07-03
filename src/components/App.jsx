@@ -1,13 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './redux/store'; 
+import { store, persistor } from './redux/store';
+
 import Phonebook from './Phonebook/Phonebook';
 
 export const App = () => {
   return (
     <Provider store={store}>
-    <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
         <div
           style={{
             height: '100vh',
