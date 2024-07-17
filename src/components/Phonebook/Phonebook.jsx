@@ -45,6 +45,9 @@ function Phonebook() {
 
   return (
     <>
+    <header>
+        <h1>AEM React homework template</h1>
+      </header>
       <ContactsForm />
 
       <div className={styles.phonebookContainer}>
